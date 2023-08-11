@@ -1,34 +1,49 @@
-
 import model
+
 
 def menu():
     """Основное меню программы"""
+    model.clearConsole()
     choice = -1
     data = model.readFile()
     while choice != 0:
-        print("Выберите действие: \n 1 Новая заметка \n 2 Прочитать все заметки \n 3 Выбрать заметку \n 0 Выход  ")
-        choice = int(input())
-        operation = {1: model.newNote, 2: model.readAllNote, 3: findNote, 0:model.exit}
+        print("Выберите действие: \n add Новая заметка \n read Прочитать все заметки \n choice Выбрать заметку \n exit Выход  ")
+        choice = input()
+        model.clearConsole()
+        operation = {"add": model.newNote, "read": model.readAllNote,
+                     "choice": choiceNote, "exit": model.exit}
         data = operation[choice](data)
 
-def findNote(data):
+
+def choiceNote(data):
     """Меню выбора дайствий над заметкой"""
+    model.clearConsole()
     c = 0
     for i in data:
-        print(str(c),i )
+        print(str(c), i)
         c += 1
-    n = int(input("Введите номер заметки: ")) 
-    choice = int(input("Выберите действие: \n 1 Изменить заметку \n 2 Удалить заметку \n 3 Распечатать заметку \n 0 Отмена "))
-    if choice  == 0: return 0
-    operation = {1: editNote, 2: model.deleteNote, 3: model.printNote, 0: 0} 
+    n = int(input("Введите номер заметки: "))
+    model.clearConsole()
+    if n < 0 | n > len(data):
+        print("Заметка не найдена")
+        return 0
+    model.printNote(n, data)
+    choice = input(
+        "Выберите действие: \n edit Изменить заметку \n del Удалить заметку \n r Отмена ")
+    if choice == 0:
+        return 0
+    operation = {"edit": editNote, "del": model.deleteNote, "r": 0}
     operation[choice](n, data)
     return data
+
 
 def editNote(n, data):
     """Меню редактирования заметки"""
-    choice = int(input("Выберите действие: \n 1 Изменить заголовок \n 2 Изменить текст \n 0 Отмена  "))
-    if choice  == 0: return 0
-    operation = {1: model.editNoteTitle, 2: model.editNoteBody, 0: 0} 
+    choice = input(
+        "Выберите действие: \n title Изменить заголовок \n body Изменить текст \n r Отмена  ")
+    if choice == 0:
+        return 0
+    operation = {"title": model.editNoteTitle,
+                 "body": model.editNoteBody, "r": 0}
     operation[choice](n, data)
     return data
-    
