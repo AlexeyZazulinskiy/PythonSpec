@@ -23,6 +23,10 @@ class noteC:
         res = str(i[0]) + ";" + i[1] + ";" + i[2] + ";" + i[3] + "\n"
         return res
 
+    def shortNote(i):
+        """Возвращает дату, заголовок и текст заметки для меню выбора"""
+        return i[1] + " " + i[2] + " " + i[3]
+
     def readNoteStrip(data):
         """Убирание символа переноса строки при чтении из файла"""
         for i in data:
